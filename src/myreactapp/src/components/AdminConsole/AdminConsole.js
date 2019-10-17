@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import {withRouter} from 'react-router-dom';
 import {postRequest} from '../Utils/RestUtils';
 
 
-class TokenCounter extends Component{
+class AdminConsole extends Component{
   state={
     userName:'',
 
@@ -37,4 +36,4 @@ class TokenCounter extends Component{
 
   
 }
-export default TokenCounter;
+export default AdminConsole;

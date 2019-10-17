@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import {withRouter} from 'react-router-dom';
 import {postRequest} from '../Utils/RestUtils';
 
 
-class TokenCounter extends Component{
+class CustomerConsole extends Component{
   state={
     userName:'',
 
@@ -29,7 +28,7 @@ class TokenCounter extends Component{
   render(){
     return (
       <div >
-          <h1>{this.props.name}</h1>
+         <h1>{this.props.name}</h1>
             id is {this.props.match.params.id}
       </div>
     );
@@ -37,4 +36,4 @@ class TokenCounter extends Component{
 
   
 }
-export default TokenCounter;
+export default CustomerConsole;
