@@ -17,9 +17,10 @@ class TokenCounter extends Component{
   componentDidMount() {
 
 
-    postRequest('/test',{username:this.state.userName,password:this.state.pass},
+    postRequest('/test',{"kedar":"kedar"},
       (data) =>{
-                console.log("data is ::::"+data);
+                console.log("data is ::::"+data.kedar);
+                this.setState({userName:data.kedar});
               }
       
       );
@@ -28,7 +29,7 @@ class TokenCounter extends Component{
   render(){
     return (
       <div className="Login">
-          <h1>{this.state.username}</h1>
+          <h1>{this.state.userName}</h1>
 
       </div>
     );

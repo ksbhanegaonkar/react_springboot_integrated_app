@@ -14,7 +14,7 @@ public class ActionController {
     //return 201 instead of 200
     @ResponseStatus(HttpStatus.CREATED)
     public String newBook(@RequestBody Book newBook) {
-        return "kedar";
+        return "{\"kedar\":\"kedar\"}";
     }
 
 }
