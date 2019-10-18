@@ -1,13 +1,20 @@
 package com.tokenmagement.util;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.tokenmagement.entity.Token;
 
 public class JsonUtil {
 	
@@ -38,6 +45,17 @@ public class JsonUtil {
 		return mapper.createObjectNode();
 	}
 	
+	public static ObjectNode getJsonObject(Token token) {
+		
+		ObjectNode node = getEmptyJsonObject();
+		node.put("tokenNumber", token.getTokenNumber());
+		node.put("assignedCounter", token.getAssignedCounterId());
+		node.put("isPremium", token.isPremium());
+		
+		
+		return node;
+	}
+	
 	public static ObjectNode getJsonObjectFromMap(Map<String,String> map) {
 		ObjectNode obj = getEmptyJsonObject();
 		for(String key : map.keySet()) {
@@ -46,12 +64,21 @@ public class JsonUtil {
 		return obj;
 	}
 	
-	public static ObjectNode getJsonObjectFromObjectMap(Map<String,Map<String,String>> map) {
+	public static ObjectNode getJsonObjectFromObjectMap(Map<Integer,Token> map) {
 		ObjectNode obj = getEmptyJsonObject();
-		for(String key : map.keySet()) {
-			obj.set(key, getJsonObjectFromMap(map.get(key)));
+		for(Integer key : map.keySet()) {
+			obj.set(key.toString(), getJsonObject(map.get(key)));
 		}
 		return obj;
+	}
+	
+	public static ArrayNode getJsonArrayFromTokenMap(Map<Integer,Token> map) {
+		ArrayNode arrayNode = mapper.createArrayNode();
+		for(int key : map.keySet()) {
+			
+			arrayNode.add(getJsonObject(map.get(key)));
+		}
+		return arrayNode;
 	}
 	
 	
@@ -62,6 +89,24 @@ public class JsonUtil {
 		}
 		return obj;
 	}
+	
+	
+	/*
+	 * private static void ObjectToJSON(Token employee) { try { JAXBContext
+	 * jaxbContext = JAXBContext.newInstance(Token.class); Marshaller jaxbMarshaller
+	 * = jaxbContext.createMarshaller();
+	 * 
+	 * // To format JSON
+	 * jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+	 * 
+	 * //Set JSON type //jaxbMarshaller.setProperty(MarshallerProperties.MEDIA_TYPE,
+	 * "application/json");
+	 * //jaxbMarshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
+	 * 
+	 * //Print JSON String to Console StringWriter sw = new StringWriter();
+	 * jaxbMarshaller.marshal(employee, sw); System.out.println(sw.toString()); }
+	 * catch (JAXBException e) { e.printStackTrace(); } }
+	 */
 	
 
 		

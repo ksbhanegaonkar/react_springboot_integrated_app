@@ -6,36 +6,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.tokenmagement.engine.TokenManagementEngine;
 import com.tokenmagement.entity.Token;
-import com.tokenmagement.repository.TokenRepository;
 import com.tokenmagement.util.JsonUtil;
 
 @RestController
 public class ActionController {
-	@Autowired
-	TokenRepository TokenRepository;
+
 	
-	//@Autowired
-	//ServiceCounterRepository serviceCounterRepository;
+	@Autowired
+	TokenManagementEngine tokenManagementEngine;
+	
+
 	
     @PostMapping("/assigntoken")
-    public String assignToken(@RequestBody String body) {
-    	
-        return "assigning token "+JsonUtil.getJsonValue(body, "tokenId")+" to "+JsonUtil.getJsonValue(body, "counterId");
+    public int assignToken(@RequestBody String body) {
+    	Token token = new Token();
+    	token.setTokenNumber(Integer.parseInt(JsonUtil.getJsonValue(body, "tokenNumber")));
+    	token.setPremium(Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium")));
+    	int counterId = tokenManagementEngine.assignTokenToServiceCounter(token);
+        return counterId;
     }
+
     
     @GetMapping("/gettoken")
-    public String getToken() {
-    	Token token = new Token();
-    	TokenRepository.save(token);
-        return token.getId().toString();
+    public int getToken() {
+        return tokenManagementEngine.getNextTokenNumber();
     }
     
-	/*
-	 * @GetMapping("/createservicecounter") public String createServiceCounter() {
-	 * ServiceCounter counter = new ServiceCounter();
-	 * serviceCounterRepository.save(counter); return counter.getId().toString(); }
-	 */
+    @PostMapping("/getassignedtoken")
+    public int getAssignedToken(@RequestBody String body) {
+    	
+    	int counterId = Integer.parseInt(JsonUtil.getJsonValue(body, "counterId"));
+    	boolean isPremium = Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium"));
+    	Token token = tokenManagementEngine.getServiceCounterNextToken(counterId, isPremium);
+        return token.getTokenNumber();
+    }
     
+    @GetMapping("/getallactivetokens")
+    public ArrayNode getAllActiveTokens() {
+        return JsonUtil.getJsonArrayFromTokenMap(tokenManagementEngine.getAllActiveTokens());
+    }
 
 }
