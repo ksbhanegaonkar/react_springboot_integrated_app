@@ -34,27 +34,28 @@ class TokenCounter extends Component{
     getRequest('/gettoken',
       (data) =>{
        this.setState({tokenNumber:data});
+       postRequest('/assigntoken',{"tokenNumber":data,
+       "isPremium":this.state.isPremium,"ownerName":this.state.userName},
+       (counterId)=>
+       { 
+         let tokenType = this.state.isPremium?"premium":"";
+       let successMessage = "Token number "+this.state.tokenNumber
+       +" is issued for "
+       +this.state.userName + " and assigned to "+
+       tokenType
+       +" counter "+counterId;
+           this.setState({successMessage:successMessage})
+       });
       }
       );
 
-      postRequest('/assigntoken',{"tokenNumber":this.state.tokenNumber,
-      "isPremium":this.state.isPremium,"ownerName":this.state.userName},
-      (counterId)=>
-      { 
-        let tokenType = this.state.isPremium?"premium":"";
-      let successMessage = "Token number "+this.state.tokenNumber
-      +" is issued for "
-      +this.state.userName + " and assigned to "+
-      tokenType
-      +" counter "+counterId;
-          this.setState({successMessage:successMessage})
-      });
+
 
     }
   render(){
     return (
       <div >
-          <h1>{this.props.name}</h1>
+          <h1>{this.props.name+" "+this.props.match.params.id}</h1>
           <form onSubmit={this.handleSubmit.bind(this)}>
           <FormGroup controlId="email" >
             <FormLabel>Username</FormLabel>

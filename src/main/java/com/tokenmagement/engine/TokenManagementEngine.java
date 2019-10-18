@@ -69,12 +69,37 @@ public class TokenManagementEngine {
 	public synchronized Token getServiceCounterNextToken(int id,boolean isPremium) {
 		Token token = null;
 		if(isPremium) {
+			token = PREMIUM_SERVICE_COUNTERS.get(id).peekNextToken();
+		}else {
+			token = NORMAL_SERVICE_COUNTERS.get(id).peekNextToken();
+		}
+		if(token==null) {
+			token = new Token();
+			token.setTokenNumber(-1);
+			return token;
+		}else {
+			return token;
+		}
+
+	}
+	
+	public synchronized Token discardServiceCounterToken(int id,boolean isPremium) {
+		Token token = null;
+		if(isPremium) {
 			token = PREMIUM_SERVICE_COUNTERS.get(id).getNextToken();
 		}else {
 			token = NORMAL_SERVICE_COUNTERS.get(id).getNextToken();
 		}
-		ALL_ACTIVE_TOKENS.remove(token.getTokenNumber());
-		return token;
+		
+		if(token==null) {
+			token = new Token();
+			token.setTokenNumber(-1);
+			return token;
+		}else {
+			ALL_ACTIVE_TOKENS.remove(token.getTokenNumber());
+			return token;
+		}
+		
 	}
 	
 	public List<Token> getAllActiveTokens(){

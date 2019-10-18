@@ -46,6 +46,15 @@ public class ActionController {
         return JsonUtil.getJsonObject(token);
     }
     
+    @PostMapping("/discardassignedtoken")
+    public ObjectNode discardAssignedToken(@RequestBody String body) {
+    	
+    	int counterId = Integer.parseInt(JsonUtil.getJsonValue(body, "counterId"));
+    	boolean isPremium = Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium"));
+    	Token token = tokenManagementEngine.discardServiceCounterToken(counterId, isPremium);
+    	return JsonUtil.getJsonObject(token);
+    }
+    
     @GetMapping("/getallactivetokens")
     public ArrayNode getAllActiveTokens() {
         return JsonUtil.createJsonArray(tokenManagementEngine.getAllActiveTokens());
