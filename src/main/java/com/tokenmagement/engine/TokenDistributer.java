@@ -1,8 +1,8 @@
 package com.tokenmagement.engine;
 
 public class TokenDistributer {
-	private static int noOfCounter;
-	private static int lastAssignedCounterId;
+	private int noOfCounter;
+	private int lastAssignedCounterId;
 	public TokenDistributer(int numberOfCounter) {
 		super();
 		this.noOfCounter = numberOfCounter;

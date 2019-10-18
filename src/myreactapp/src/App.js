@@ -5,13 +5,13 @@ import './App.css';
 import TokenCounter from './components/TokenCounter/TokenCounter';
 import AdminConsole from './components/AdminConsole/AdminConsole';
 import CustomerConsole from './components/CustomerConsole/CustomerConsole';
+import ServiceCounter from './components/ServiceCounter/ServiceCounter';
 
 class App extends Component {
   state={
     userStatus:false
   }
   render(){
-  localStorage.removeItem("jwtToken");
   return (
     <Router>
         <Switch>
@@ -19,12 +19,16 @@ class App extends Component {
            render={(props) => <AdminConsole {...props} name={"Admin Console"} />}>
           </Route>
 
-          <Route path="/counter/:id" exact strict 
-           render={(props) => <TokenCounter {...props} name={"Normal token counter"} isPremium={false}/>}>
+          <Route path="/tokencounter/:id" exact strict 
+           render={(props) => <TokenCounter {...props} name={"Token counter"}/>}>
           </Route>
 
-          <Route path="/premiumcounter/:id" exact strict 
-           render={(props) => <TokenCounter {...props} name={"Premium Token Counter"} isPremium={true}/>}>
+          <Route path="/servicecounter/:id" exact strict 
+           render={(props) => <ServiceCounter {...props} name={"Normal service counter"} isPremium={false}/>}>
+          </Route>
+
+          <Route path="/premiumservicecounter/:id" exact strict 
+           render={(props) => <ServiceCounter {...props} name={"Premium service Counter"} isPremium={true}/>}>
           </Route>
 
           <Route path="/customerconsole" exact strict 

@@ -4,8 +4,6 @@ export const postRequest =(action,data,onDataReceive) =>{
     {
       headers:{
         'Content-Type': 'application/json',
-       // ,'Access-Control-Allow-Origin':"*",
-        'Authorization':localStorage.getItem("jwtToken")
       },
        method: 'POST', // or 'PUT'
        //mode:"no-cors",
@@ -18,4 +16,20 @@ export const postRequest =(action,data,onDataReceive) =>{
   .then(data=>{
     onDataReceive(data);
   });
+}
+
+export const getRequest =(action,onDataReceive) =>{
+  console.log("called from rest utils");
+  fetch(new Request(action),
+  {
+
+     method: 'GET'
+
+  }
+     )
+
+.then((res)=>res.json())
+.then(data=>{
+  onDataReceive(data);
+});
 }
