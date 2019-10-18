@@ -26,6 +26,7 @@ public class ActionController {
     	Token token = new Token();
     	token.setTokenNumber(Integer.parseInt(JsonUtil.getJsonValue(body, "tokenNumber")));
     	token.setPremium(Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium")));
+    	token.setOwnerName(JsonUtil.getJsonValue(body, "ownerName"));
     	int counterId = tokenManagementEngine.assignTokenToServiceCounter(token);
         return counterId;
     }
@@ -37,17 +38,22 @@ public class ActionController {
     }
     
     @PostMapping("/getassignedtoken")
-    public int getAssignedToken(@RequestBody String body) {
+    public ObjectNode getAssignedToken(@RequestBody String body) {
     	
     	int counterId = Integer.parseInt(JsonUtil.getJsonValue(body, "counterId"));
     	boolean isPremium = Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium"));
     	Token token = tokenManagementEngine.getServiceCounterNextToken(counterId, isPremium);
-        return token.getTokenNumber();
+        return JsonUtil.getJsonObject(token);
     }
     
     @GetMapping("/getallactivetokens")
     public ArrayNode getAllActiveTokens() {
-        return JsonUtil.getJsonArrayFromTokenMap(tokenManagementEngine.getAllActiveTokens());
+        return JsonUtil.createJsonArray(tokenManagementEngine.getAllActiveTokens());
+    }
+    
+    @GetMapping("/getallassignedtokens")
+    public ArrayNode getAllAssignedTokens() {
+        return JsonUtil.createJsonArray(tokenManagementEngine.getAssignedTokenList());
     }
 
 }

@@ -34,9 +34,9 @@ public class JsonUtil {
 		return null;
 	}
 	
-	public static ArrayNode createJsonArray(List<String> values) {
+	public static ArrayNode createJsonArray(List<Token> values) {
 		ArrayNode arrayNode = mapper.createArrayNode();
-		values.forEach(v->arrayNode.add(v));
+		values.forEach(v->arrayNode.add(getJsonObject(v)));
 		return arrayNode;
 	
 	}
@@ -51,6 +51,7 @@ public class JsonUtil {
 		node.put("tokenNumber", token.getTokenNumber());
 		node.put("assignedCounter", token.getAssignedCounterId());
 		node.put("isPremium", token.isPremium());
+		node.put("ownerName", token.getOwnerName());
 		
 		
 		return node;
@@ -72,44 +73,9 @@ public class JsonUtil {
 		return obj;
 	}
 	
-	public static ArrayNode getJsonArrayFromTokenMap(Map<Integer,Token> map) {
-		ArrayNode arrayNode = mapper.createArrayNode();
-		for(int key : map.keySet()) {
-			
-			arrayNode.add(getJsonObject(map.get(key)));
-		}
-		return arrayNode;
-	}
-	
-	
-	public static ObjectNode getJsonObjectFromListMap(Map<String,List<String>> map) {
-		ObjectNode obj = getEmptyJsonObject();
-		for(String key : map.keySet()) {
-			obj.set(key, createJsonArray(map.get(key)));
-		}
-		return obj;
-	}
-	
-	
-	/*
-	 * private static void ObjectToJSON(Token employee) { try { JAXBContext
-	 * jaxbContext = JAXBContext.newInstance(Token.class); Marshaller jaxbMarshaller
-	 * = jaxbContext.createMarshaller();
-	 * 
-	 * // To format JSON
-	 * jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-	 * 
-	 * //Set JSON type //jaxbMarshaller.setProperty(MarshallerProperties.MEDIA_TYPE,
-	 * "application/json");
-	 * //jaxbMarshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
-	 * 
-	 * //Print JSON String to Console StringWriter sw = new StringWriter();
-	 * jaxbMarshaller.marshal(employee, sw); System.out.println(sw.toString()); }
-	 * catch (JAXBException e) { e.printStackTrace(); } }
-	 */
-	
 
-		
+	
+	
 	
 }
 

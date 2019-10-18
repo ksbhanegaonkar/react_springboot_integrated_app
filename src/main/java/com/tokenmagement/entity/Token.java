@@ -10,8 +10,15 @@ public class Token implements Serializable{
 	private int tokenNumber;
 	private boolean isPremium;
 	private int assignedCounterId;
+	private String ownerName;
 	
 
+	public String getOwnerName() {
+		return ownerName;
+	}
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
 	public int getTokenNumber() {
 		return tokenNumber;
 	}
@@ -30,6 +37,7 @@ public class Token implements Serializable{
 	public void setAssignedCounterId(int assignedCounterId) {
 		this.assignedCounterId = assignedCounterId;
 	}
+
 
 	
 

@@ -9,11 +9,12 @@ public class TokenDistributer {
 	}
 	
 	public synchronized int getNextCounterId() {
+		int newCounterValue = lastAssignedCounterId;
 		lastAssignedCounterId+=1;
 		if(lastAssignedCounterId >= noOfCounter) {
 			lastAssignedCounterId = 0;
 		}
-		return lastAssignedCounterId;
+		return newCounterValue;
 	}
 	
 }

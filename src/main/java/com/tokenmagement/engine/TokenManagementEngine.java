@@ -20,7 +20,7 @@ public class TokenManagementEngine {
 	private static final Map<Integer,ServiceCounter> NORMAL_SERVICE_COUNTERS  = new HashMap<>();
 	private static final Map<Integer,ServiceCounter> PREMIUM_SERVICE_COUNTERS = new HashMap<>();
 	
-	private static final Map<Integer,Token> ALL_ACTIVE_TOKENS = new HashMap<>();
+	private static final List<Token> ALL_ACTIVE_TOKENS = new ArrayList<>();
 	
 	private TokenDistributer normalTokenDistributer;
 	private TokenDistributer premiumTokenDistributer;
@@ -58,7 +58,7 @@ public class TokenManagementEngine {
 			NORMAL_SERVICE_COUNTERS.get(counterId).assignToken(token);
 		}
 		token.setAssignedCounterId(counterId);
-		ALL_ACTIVE_TOKENS.put(token.getTokenNumber(),token);
+		ALL_ACTIVE_TOKENS.add(token);
 		return counterId;
 	}
 	
@@ -77,8 +77,27 @@ public class TokenManagementEngine {
 		return token;
 	}
 	
-	public Map<Integer,Token> getAllActiveTokens(){
+	public List<Token> getAllActiveTokens(){
 		return ALL_ACTIVE_TOKENS;
+	}
+	
+	public List<Token> getAssignedTokenList(){
+		List<Token> allAssignedTokens = new ArrayList<>();
+		
+		for(int i=0;i<TOTAL_PREMIUM_SERVICE_COUNTERS;i++) {
+			if(PREMIUM_SERVICE_COUNTERS.get(i).peekNextToken() != null) {
+				allAssignedTokens.add(PREMIUM_SERVICE_COUNTERS.get(i).peekNextToken());
+			}
+
+		}
+		
+		for(int i=0;i<TOTAL_NORMAL_SERVICE_COUNTERS;i++) {
+			if(NORMAL_SERVICE_COUNTERS.get(i).peekNextToken() != null) {
+			allAssignedTokens.add(NORMAL_SERVICE_COUNTERS.get(i).peekNextToken());
+			}
+		}
+		
+		return allAssignedTokens;
 	}
 	
 	

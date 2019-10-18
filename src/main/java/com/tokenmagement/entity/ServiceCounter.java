@@ -22,6 +22,9 @@ public class ServiceCounter {
 		return assignedToken.poll();
 	}
 	
+	public Token peekNextToken() {
+		return assignedToken.peek();
+	}
 	
 	
 	
