@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {withRouter} from 'react-router-dom';
 import {postRequest,getRequest} from '../Utils/RestUtils';
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import TokenDisplay from "../TokenDisplay/TokenDisplay";
 
 class TokenCounter extends Component{
   state={
@@ -77,21 +78,16 @@ class TokenCounter extends Component{
           </FormGroup>
 
           <div onChange={this.setTokenType.bind(this)}>
-            <input type="radio" value="Normal" name="gender"/> Normal
-            <input type="radio" value="Premium" name="gender"/> Premium
+            <input type="radio" value="Normal" /> Normal
+            <input type="radio" value="Premium"/> Premium
           </div>
      
           <Button block
-          //disabled={!this.validateForm()} 
           type="submit">
             Create and assign token
           </Button>
-
         {this.renderTokenData()}
-
-
         </form>
-      <div>{this.state.successMessage}</div>
         
       </div>
     );
@@ -99,15 +95,18 @@ class TokenCounter extends Component{
 
   renderTokenData(){
     if(this.state.token.tokenName === undefined || this.state.token.tokenName === null){
-      return <div>No token assigned to this counter</div>
+      return <div></div>
     }else{
-      return <div>{"Token "+this.state.token.tokenName+" for "+this.state.token.ownerName+" is assigned to counter "+this.state.token.assignedCounterId}</div>
+      return <div>
+        <h2>{"Token "+this.state.token.tokenName+" for "+this.state.token.ownerName+" is assigned to counter "+this.state.token.assignedCounterId}</h2>
+        <TokenDisplay token={this.state.token}></TokenDisplay>
+        </div>
     }
   }
   setTokenType(event){
     let isPremium = event.target.value === "Premium";
     this.setState({isPremium : isPremium,tokenType:event.target.value});
-    console.log("is premium value ::: "+isPremium);
+    
   }
   
 }

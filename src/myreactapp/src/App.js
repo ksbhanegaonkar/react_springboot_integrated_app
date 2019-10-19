@@ -31,11 +31,11 @@ class App extends Component {
           </Route>
 
           <Route path="/servicecounter/:id"   exact strict
-           render={(props) => <ServiceCounter {...props} name={"Normal service counter"} isPremium={false}/>}>
+           render={(props) => <ServiceCounter {...props} name={"Service Counter NC-"} isPremium={false}/>}>
           </Route>
 
           <Route path="/premiumservicecounter/:id"  exact strict
-           render={(props) => <ServiceCounter {...props} name={"Premium service Counter"} isPremium={true}/>}>
+           render={(props) => <ServiceCounter {...props} name={"Service Counter PC-"} isPremium={true}/>}>
           </Route>
 
           <Route path="/customerconsole"   exact strict

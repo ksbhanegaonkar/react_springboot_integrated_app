@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {withRouter} from 'react-router-dom';
 import {postRequest,getRequest,postRequestEveryInterval} from '../Utils/RestUtils';
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import TokenDisplay from "../TokenDisplay/TokenDisplay";
 
 class ServiceCounter extends Component{
   state={
     userName:'',
     isPremium:false,
-    tokenNumber:0,
     successMessage:'',
     token:{}
 
@@ -17,22 +17,9 @@ class ServiceCounter extends Component{
     
   }
 
-  componentDidMount(){
-    // console.log("id is:::::"+this.props.match.params.id+" ispremium "+this.props.isPremium);
-    // postRequestEveryInterval('/getassignedtoken',{"counterId":this.props.match.params.id,"isPremium":this.props.isPremium},
-    // (token)=>{
-    //   if(token.tokenNumber == -1){
-    //     let message = "no token available for counter";
-    //     this.setState({successMessage:message})
-    //   }
-    //   else{
-    //     let message = "Token "+token.tokenNumber+" of Mr. "+token.ownerName+" is assigned to this counter";
-    //     this.setState({successMessage:message})
-    //     console.log(token.tokenNumber);
-    //   }
-      
-    // },5000);
-  }
+componentDidMount(){
+  this.refreshCounter();
+}
   validateForm() {
     return this.state.userName.length > 0 && this.state.pass.length > 0;
   }
@@ -45,66 +32,51 @@ class ServiceCounter extends Component{
   }
 
   refreshCounter(){
+    
      postRequest('/getassignedtoken',{"counterId":this.props.match.params.id,"isPremium":this.props.isPremium},
     (token)=>{
-      if(token.tokenNumber == -1){
-        let message = "no token available for counter";
-        this.setState({successMessage:message})
-      }
-      else{
-        let message = "Token "+token.tokenNumber+" of Mr. "+token.ownerName+" is assigned to this counter";
-        this.setState({successMessage:message})
-        console.log(token.tokenNumber);
-      }
-      
+      // console.log(" token.assignedCounterId"+ token.assignedCounterId+"token.isPremium"+this.props.isPremium)
+      // if(token.tokenName === undefined || token.tokenName === null){
+      //   token.assignedCounterId = this.props.match.params.id;
+      //   token.isPremium = this.props.isPremium;
+      // }
+        
+      this.setState({token:token});
+  
+
     });
   }
 
-  handleSubmit(event) {
-      
-    event.preventDefault();
-
-      postRequest('/discardassignedtoken',{"counterId":this.props.match.params.id,"isPremium":this.props.isPremium},
+  completeWork(event) {
+      postRequest('/completework',this.state.token,
       (token)=>{
-        console.log(token.tokenNumber);
-        this.setState({token:{},successMessage:""});
+        this.refreshCounter();
       });
 
-
+     
     }
+
   render(){
+    
     return (
       <div >
-         
-          <h1>{this.props.name+" "+this.props.match.params.id}</h1>
-          <div>{this.props.successMessage}</div>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-
-          <Button block 
-          type="submit">
-            Complete work
-          </Button>
-          <div className='error-message'>
-          <span>{this.state.errorMsg}</span>
-          </div>
-
-
-        </form>
-      <button onClick={this.refreshCounter.bind(this)}>Refresh</button>
+          <h1>{this.props.name+this.props.match.params.id}</h1>
+          <button onClick={this.completeWork.bind(this)}>Complete work</button>
+          <div></div>
+          <button onClick={this.refreshCounter.bind(this)}>Refresh</button>
       <div></div>
-      <span>{this.state.successMessage}</span>
-      
+      {this.getTokenInfo()}
 
-     
-        
       </div>
     );
   }
-  setTokenType(event){
-    let isPremium = event.target.value === "Premium";
-    this.setState({isPremium : isPremium});
-    console.log("is premium value ::: "+isPremium);
+  getTokenInfo(){
+    if(this.state.token.tokenName === undefined || this.state.token.tokenName === null){
+      return <div><h2>Currently no token assigned to counter</h2></div>
+    }else{
+      return <div><h2>Token assigned is {this.state.token.tokenName}</h2>
+      <TokenDisplay token={this.state.token}></TokenDisplay></div>
+    }
   }
-  
 }
 export default ServiceCounter;

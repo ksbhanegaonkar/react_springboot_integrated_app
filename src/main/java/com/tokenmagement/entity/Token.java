@@ -79,7 +79,11 @@ public class Token implements Serializable{
 		this.ownerId = ownerId;
 	}
 
-
+	@Override
+	public boolean equals(Object obj) {
+		Token token = (Token)obj;
+		return this.getTokenNumber()==token.getTokenNumber();
+	}
 	
 
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tokenmagement.constants.ApplicationConstant;
 import com.tokenmagement.entity.ServiceCounter;
 import com.tokenmagement.entity.Token;
 import com.tokenmagement.entity.TokenCounter;
@@ -100,7 +101,6 @@ public class TokenManagementEngine {
 		}
 		if(token==null) {
 			token = new Token();
-			token.setTokenNumber(-1);
 			return token;
 		}else {
 			return token;
@@ -125,6 +125,23 @@ public class TokenManagementEngine {
 			return token;
 		}
 		
+	}
+	
+	public synchronized Token completeWork(Token token) {
+		if(token.getTokenName() == null) {
+			token = new Token();
+			return token;
+		}
+		else {
+			if(ApplicationConstant.TOKEN_TYPE_PREMIUM.equals(token.getType())) {
+				PREMIUM_SERVICE_COUNTERS.get(token.getAssignedCounterId()).getNextToken();
+			}else {
+				NORMAL_SERVICE_COUNTERS.get(token.getAssignedCounterId()).getNextToken();
+			}
+				ALL_ACTIVE_TOKENS.remove(token);
+			token.setCompletedTimestamp(System.currentTimeMillis());
+			return token;
+		}
 	}
 	
 	public List<Token> getAllActiveTokens(){

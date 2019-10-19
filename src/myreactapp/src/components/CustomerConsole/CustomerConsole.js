@@ -5,24 +5,29 @@ import './CustomerConsole.css';
 class CustomerConsole extends Component{
   state={
     userName:'',
+    assignedTokens:[{}]
 
   }
   constructor(props) {
     super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
     this.state = { //state is by default an object
-       students: [
-          { tokenNumber: undefined, assignedCounter: '', isPremium: undefined, ownerName: '' },
+      assignedTokens: [
+          { tokenName: undefined, assignedCounterId: undefined,type: undefined, ownerName: undefined },
        ]
     }
 
 
   }
 
+  componentDidMount(){
+     this.refreshConsole();
+  }
+
   refreshConsole(){
     getRequest('/getallassignedtokens',
    (data)=>{
 
-    this.setState({students:data})
+    this.setState({assignedTokens:data})
      
     
    });
@@ -32,7 +37,7 @@ class CustomerConsole extends Component{
     return (
       <div >
             <h1 id='title'>{this.props.name}</h1>
-            <table id='students'>
+            <table id='token'>
                <tbody>
                   <tr>{this.renderTableHeader()}</tr>
                   {this.renderTableData()}
@@ -44,7 +49,7 @@ class CustomerConsole extends Component{
   }
 
   renderTableHeader() {
-    let header = Object.keys(this.state.students[0])
+    let header = ["Token","Counter","Name"];//Object.keys(this.state.students[0])
     return header.map((key, index) => {
        return <th key={index}>{key.toUpperCase()}</th>
     })
@@ -52,19 +57,21 @@ class CustomerConsole extends Component{
 
 
  renderTableData() {
-  return this.state.students.map((student, index) => {
-     const { tokenNumber, assignedCounter, isPremium, ownerName } = student //destructuring
-     return (
-        <tr key={tokenNumber}>
-           <td>{tokenNumber}</td>
-           <td>{assignedCounter}</td>
-           <td>{isPremium}</td>
-           <td>{ownerName}</td>
-        </tr>
-     )
-  })
+  return this.state.assignedTokens.map((token, index) => {
+     if(token.tokenName != undefined){
+      const { tokenName, assignedCounterId, type, ownerName } = token;
+      let assignedCounterName = type==="Premium"?"PC-"+assignedCounterId:"NC-"+assignedCounterId;
+      return (
+         <tr key={tokenName}>
+            <td>{tokenName}</td>
+            <td>{assignedCounterName}</td>
+            <td>{ownerName}</td>
+         </tr>
+      );
 
-  
+     }
+
+});
 }
 }
 export default CustomerConsole;

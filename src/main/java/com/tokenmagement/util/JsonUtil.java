@@ -36,7 +36,7 @@ public class JsonUtil {
 	
 	public static ArrayNode createJsonArray(List<Token> values) {
 		ArrayNode arrayNode = mapper.createArrayNode();
-		values.forEach(v->arrayNode.add(getJsonObject(v)));
+		values.forEach(v->arrayNode.add(getTokenAsJsonObject(v)));
 		return arrayNode;
 	
 	}
