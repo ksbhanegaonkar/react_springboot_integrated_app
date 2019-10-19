@@ -45,10 +45,29 @@ public class JsonUtil {
 		return mapper.createObjectNode();
 	}
 	
+	public static ObjectNode getTokenAsJsonObject(Token token) {
+		
+		ObjectNode node = getEmptyJsonObject();
+		node.put("tokenNumber", token.getTokenNumber());
+		node.put("tokenName", token.getTokenName());
+		node.put("isPremium", token.isPremium());
+		node.put("assignedCounterId", token.getAssignedCounterId());
+		node.put("ownerId", token.getOwnerId());
+		node.put("ownerName", token.getOwnerName());
+		node.put("counterOwnerrId", token.getCounterOwnerrId());
+		node.put("createdTimestamp", token.getCreatedTimestamp());
+		node.put("completedTimestamp", token.getCompletedTimestamp());
+		node.put("type", token.getType());
+		
+		
+		return node;
+	}
+	
 	public static ObjectNode getJsonObject(Token token) {
 		
 		ObjectNode node = getEmptyJsonObject();
 		node.put("tokenNumber", token.getTokenNumber());
+		node.put("tokenName", token.getTokenName());
 		node.put("assignedCounter", token.getAssignedCounterId());
 		node.put("isPremium", token.isPremium());
 		node.put("ownerName", token.getOwnerName());

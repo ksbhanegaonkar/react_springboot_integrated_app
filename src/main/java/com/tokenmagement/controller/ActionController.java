@@ -39,6 +39,11 @@ public class ActionController {
         return tokenManagementEngine.getNextTokenNumber();
     }
     
+    @GetMapping("/generatetoken")
+    public ObjectNode generateToken() {
+        return JsonUtil.getTokenAsJsonObject(tokenManagementEngine.generateToken());
+    }
+    
     @PostMapping("/getassignedtoken")
     public ObjectNode getAssignedToken(@RequestBody String body) {
     	

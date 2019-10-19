@@ -26,6 +26,7 @@ public class TokenManagementEngine {
 	private TokenDistributer premiumTokenDistributer;
 
 	public TokenManagementEngine(int tokenCounters, int normalServiceCounters, int premiumServiceCounters) {
+		TOKEN_NUMBER = 1;
 		TOTAL_TOKEN_COUNTERS = tokenCounters;
 		TOTAL_PREMIUM_SERVICE_COUNTERS = premiumServiceCounters;
 		TOTAL_NORMAL_SERVICE_COUNTERS = normalServiceCounters;
@@ -64,6 +65,15 @@ public class TokenManagementEngine {
 	
 	public synchronized int getNextTokenNumber() {
 		return TOKEN_NUMBER++;
+	}
+	
+	public synchronized Token generateToken() {
+		int tokenNumber = TOKEN_NUMBER;
+		TOKEN_NUMBER++;
+		Token token = new Token();
+		token.setTokenNumber(tokenNumber);
+		token.setCreatedTimestamp(System.currentTimeMillis());
+		return token;
 	}
 	
 	public synchronized Token getServiceCounterNextToken(int id,boolean isPremium) {
@@ -120,6 +130,11 @@ public class TokenManagementEngine {
 			if(NORMAL_SERVICE_COUNTERS.get(i).peekNextToken() != null) {
 			allAssignedTokens.add(NORMAL_SERVICE_COUNTERS.get(i).peekNextToken());
 			}
+		}
+		
+		if(allAssignedTokens.size() == 0) {
+			Token token = new Token();
+			allAssignedTokens.add(token);
 		}
 		
 		return allAssignedTokens;
