@@ -63,6 +63,22 @@ public class JsonUtil {
 		return node;
 	}
 	
+	public static Token getTokenFromJsonObject(ObjectNode node) {
+		Token token = new Token();
+		token.setTokenNumber(node.get("tokenNumber").intValue());
+		token.setTokenName(node.get("tokenName").textValue());
+		token.setPremium(node.get("isPremium").asBoolean());
+		token.setAssignedCounterId(node.get("assignedCounterId").asInt());
+		token.setOwnerId(node.get("ownerId").asInt());
+		token.setOwnerName(node.get("ownerName").textValue());
+		token.setCounterOwnerrId(node.get("counterOwnerrId").asInt());
+		token.setCreatedTimestamp(node.get("createdTimestamp").asLong());
+		token.setCompletedTimestamp(node.get("completedTimestamp").asLong());
+		token.setType(node.get("type").textValue());
+		
+		return token;
+	}
+	
 	public static ObjectNode getJsonObject(Token token) {
 		
 		ObjectNode node = getEmptyJsonObject();

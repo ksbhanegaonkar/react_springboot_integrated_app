@@ -7,6 +7,7 @@ import java.util.Queue;
 public class ServiceCounter {
 	final Queue<Token> assignedToken = new ArrayDeque<>();
 	int id;
+	int counterOwnerId;
 	boolean isPremium;
 	public ServiceCounter(int id,boolean isPremium) {
 		super();
@@ -25,6 +26,15 @@ public class ServiceCounter {
 	public Token peekNextToken() {
 		return assignedToken.peek();
 	}
+
+	public int getCounterOwnerId() {
+		return counterOwnerId;
+	}
+
+	public void setCounterOwnerId(int counterOwnerId) {
+		this.counterOwnerId = counterOwnerId;
+	}
+	
 	
 
 	

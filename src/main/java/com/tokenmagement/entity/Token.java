@@ -13,7 +13,7 @@ public class Token implements Serializable{
 	private int assignedCounterId;
 	private int ownerId;
 	private String ownerName;
-	private String counterOwnerrId;
+	private int counterOwnerrId;
 	private Long createdTimestamp;
 	private Long completedTimestamp;
 	private String type;
@@ -54,10 +54,10 @@ public class Token implements Serializable{
 	public void setTokenName(String tokenName) {
 		this.tokenName = tokenName;
 	}
-	public String getCounterOwnerrId() {
+	public int getCounterOwnerrId() {
 		return counterOwnerrId;
 	}
-	public void setCounterOwnerrId(String counterOwnerrId) {
+	public void setCounterOwnerrId(int counterOwnerrId) {
 		this.counterOwnerrId = counterOwnerrId;
 	}
 	public Long getCreatedTimestamp() {

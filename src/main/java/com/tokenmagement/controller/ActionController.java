@@ -32,6 +32,13 @@ public class ActionController {
     	int counterId = tokenManagementEngine.assignTokenToServiceCounter(token);
         return counterId;
     }
+    
+    @PostMapping("/assignnewtokentocounter")
+    public ObjectNode assignTokenToCounter(@RequestBody ObjectNode body) {
+    	Token token = JsonUtil.getTokenFromJsonObject(body);
+    	token = tokenManagementEngine.assignNewTokenToServiceCounter(token);
+        return JsonUtil.getTokenAsJsonObject(token);
+    }
 
     
     @GetMapping("/gettoken")

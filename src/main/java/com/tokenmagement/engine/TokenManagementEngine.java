@@ -63,6 +63,21 @@ public class TokenManagementEngine {
 		return counterId;
 	}
 	
+	public synchronized Token assignNewTokenToServiceCounter(Token token) {
+		int counterId=-1;
+		if(token.isPremium()) {
+			counterId = premiumTokenDistributer.getNextCounterId();
+			PREMIUM_SERVICE_COUNTERS.get(counterId).assignToken(token);
+		}else {
+			counterId = normalTokenDistributer.getNextCounterId();
+			NORMAL_SERVICE_COUNTERS.get(counterId).assignToken(token);
+		}
+		token.setAssignedCounterId(counterId);
+		token.setCounterOwnerrId(NORMAL_SERVICE_COUNTERS.get(counterId).getCounterOwnerId());
+		ALL_ACTIVE_TOKENS.add(token);
+		return token;
+	}
+	
 	public synchronized int getNextTokenNumber() {
 		return TOKEN_NUMBER++;
 	}
