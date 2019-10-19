@@ -8,7 +8,10 @@ class TokenCounter extends Component{
     userName:'',
     isPremium:false,
     tokenNumber:0,
-    successMessage:''
+    successMessage:'',
+    token:{},
+    tokenType:'',
+    applicationId:0
    
 
   }
@@ -20,31 +23,30 @@ class TokenCounter extends Component{
     return this.state.userName.length > 0 && this.state.pass.length > 0;
   }
 
-  setUsername(name){
-    this.setState({userName:name});
+  setCustomerName(name){
+    this.setState({ownerName:name});
   }
-  setPassword(pass){
-    this.setState({pass:pass});
+
+  setApplicationId(id){
+    this.setState({applicationId:id});
   }
+
 
   handleSubmit(event) {
       
     event.preventDefault();
 
-    getRequest('/gettoken',
+    getRequest('/generatetoken',
       (data) =>{
-       this.setState({tokenNumber:data});
-       postRequest('/assigntoken',{"tokenNumber":data,
-       "isPremium":this.state.isPremium,"ownerName":this.state.userName},
-       (counterId)=>
-       { 
-         let tokenType = this.state.isPremium?"premium":"";
-       let successMessage = "Token number "+this.state.tokenNumber
-       +" is issued for "
-       +this.state.userName + " and assigned to "+
-       tokenType
-       +" counter "+counterId;
-           this.setState({successMessage:successMessage})
+        let token = data;
+        token.type = this.state.tokenType;
+        token.ownerId = this.state.applicationId;
+        token.ownerName = this.state.ownerName;
+        token.tokenName = this.state.tokenType[0]+'-'+token.tokenNumber;
+       postRequest('/assignnewtokentocounter',token,
+          (updatedToken)=>
+        { 
+           this.setState({token:updatedToken})
        });
       }
       );
@@ -58,12 +60,19 @@ class TokenCounter extends Component{
           <h1>{this.props.name+" "+this.props.match.params.id}</h1>
           <form onSubmit={this.handleSubmit.bind(this)}>
           <FormGroup controlId="email" >
-            <FormLabel>Username</FormLabel>
+            <FormLabel>Application Id</FormLabel>
             <FormControl
               autoFocus
               type="text"
-             // value={this.state.userName == null?this.state.userName:''}
-              onChange={e => this.setUsername(e.target.value)}
+              onChange={e => this.setApplicationId(e.target.value)}
+            />
+        
+
+          <FormLabel>Customer Name</FormLabel>
+            <FormControl
+              autoFocus
+              type="text"
+              onChange={e => this.setCustomerName(e.target.value)}
             />
           </FormGroup>
 
@@ -77,9 +86,8 @@ class TokenCounter extends Component{
           type="submit">
             Create and assign token
           </Button>
-          <div className='error-message'>
-          <span>{this.state.errorMsg}</span>
-          </div>
+
+        {this.renderTokenData()}
 
 
         </form>
@@ -88,9 +96,17 @@ class TokenCounter extends Component{
       </div>
     );
   }
+
+  renderTokenData(){
+    if(this.state.token.tokenName === undefined || this.state.token.tokenName === null){
+      return <div>No token assigned to this counter</div>
+    }else{
+      return <div>{"Token "+this.state.token.tokenName+" for "+this.state.token.ownerName+" is assigned to counter "+this.state.token.assignedCounterId}</div>
+    }
+  }
   setTokenType(event){
     let isPremium = event.target.value === "Premium";
-    this.setState({isPremium : isPremium});
+    this.setState({isPremium : isPremium,tokenType:event.target.value});
     console.log("is premium value ::: "+isPremium);
   }
   
