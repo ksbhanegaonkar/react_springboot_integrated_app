@@ -78,8 +78,8 @@ class TokenCounter extends Component{
           </FormGroup>
 
           <div onChange={this.setTokenType.bind(this)}>
-            <input type="radio" value="Normal" /> Normal
-            <input type="radio" value="Premium"/> Premium
+            <input type="radio" value="Normal" name="tokenType"/> Normal
+            <input type="radio" value="Premium" name="tokenType"/> Premium
           </div>
      
           <Button block

@@ -1,6 +1,6 @@
 export const postRequest =(action,data,onDataReceive) =>{
     console.log("called from rest utils");
-    fetch(new Request('/services/'+action),
+    fetch(new Request('/services'+action),
     {
       headers:{
         'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export const postRequest =(action,data,onDataReceive) =>{
 
 export const postRequestEveryInterval =(action,data,onDataReceive,interval) =>{
 setInterval(()=>{
-  fetch(new Request('/services/'+action),
+  fetch(new Request('/services'+action),
   {
     headers:{
       'Content-Type': 'application/json',
@@ -41,9 +41,9 @@ setInterval(()=>{
 
 export const getRequest =(action,onDataReceive) =>{
   console.log("called from rest utils");
-  fetch(new Request('/services/'+action),
+  fetch(new Request('/services'+action),
   {
-
+    
      method: 'GET'
 
   }

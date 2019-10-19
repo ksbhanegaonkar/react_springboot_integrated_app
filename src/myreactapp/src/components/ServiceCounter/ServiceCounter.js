@@ -33,13 +33,13 @@ componentDidMount(){
 
   refreshCounter(){
     
-     postRequest('/getassignedtoken',{"counterId":this.props.match.params.id,"isPremium":this.props.isPremium},
+     postRequest('/getassignedtoken',{"counterId":this.props.match.params.id,"type":this.props.type},
     (token)=>{
       // console.log(" token.assignedCounterId"+ token.assignedCounterId+"token.isPremium"+this.props.isPremium)
-      // if(token.tokenName === undefined || token.tokenName === null){
-      //   token.assignedCounterId = this.props.match.params.id;
-      //   token.isPremium = this.props.isPremium;
-      // }
+       if(token.tokenName === undefined || token.tokenName === null){
+         token.assignedCounterId = this.props.match.params.id;
+         token.type = this.props.type;
+       }
         
       this.setState({token:token});
   

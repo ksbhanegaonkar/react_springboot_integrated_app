@@ -66,7 +66,7 @@ public class TokenManagementEngine {
 	
 	public synchronized Token assignNewTokenToServiceCounter(Token token) {
 		int counterId=-1;
-		if(token.isPremium()) {
+		if(ApplicationConstant.TOKEN_TYPE_PREMIUM.equals(token.getType())) {
 			counterId = premiumTokenDistributer.getNextCounterId();
 			PREMIUM_SERVICE_COUNTERS.get(counterId).assignToken(token);
 		}else {
@@ -92,9 +92,9 @@ public class TokenManagementEngine {
 		return token;
 	}
 	
-	public synchronized Token getServiceCounterNextToken(int id,boolean isPremium) {
+	public synchronized Token getServiceCounterNextToken(int id,String type) {
 		Token token = null;
-		if(isPremium) {
+		if(ApplicationConstant.TOKEN_TYPE_PREMIUM.equals(type)) {
 			token = PREMIUM_SERVICE_COUNTERS.get(id).peekNextToken();
 		}else {
 			token = NORMAL_SERVICE_COUNTERS.get(id).peekNextToken();
@@ -170,6 +170,18 @@ public class TokenManagementEngine {
 		}
 		
 		return allAssignedTokens;
+	}
+
+	public int getTotalTokenCounters() {
+		return TOTAL_TOKEN_COUNTERS;
+	}
+
+	public int getTotalPremiumServiceCounters() {
+		return TOTAL_PREMIUM_SERVICE_COUNTERS;
+	}
+
+	public int getTotalServiceCounters() {
+		return TOTAL_NORMAL_SERVICE_COUNTERS;
 	}
 	
 	
