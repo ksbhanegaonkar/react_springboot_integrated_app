@@ -4,13 +4,15 @@ import {postRequest,getRequest,postRequestEveryInterval} from '../Utils/RestUtil
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import TokenDisplay from "../TokenDisplay/TokenDisplay";
 import './ServiceCounter.css';
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 class ServiceCounter extends Component{
   state={
     userName:'',
     isPremium:false,
     successMessage:'',
-    token:{}
+    token:{},
+    isLoading:false
 
   }
   constructor(props){
@@ -33,7 +35,7 @@ componentDidMount(){
   }
 
   refreshCounter(){
-    
+    this.setState({isLoading:true});
      postRequest('/getassignedtoken',{"counterId":this.props.match.params.id,"type":this.props.type},
     (token)=>{
       // console.log(" token.assignedCounterId"+ token.assignedCounterId+"token.isPremium"+this.props.isPremium)
@@ -42,13 +44,14 @@ componentDidMount(){
          token.type = this.props.type;
        }
         
-      this.setState({token:token});
+      this.setState({token:token,isLoading:false});
   
 
     });
   }
 
   completeWork(event) {
+    this.setState({isLoading:true})
       postRequest('/completework',this.state.token,
       (token)=>{
         this.refreshCounter();
@@ -61,6 +64,7 @@ componentDidMount(){
     
     return (
       <div >
+        <LoadingScreen isLoading={this.state.isLoading}></LoadingScreen>
           <h1>{this.props.name+this.props.match.params.id}</h1>
           <button onClick={this.completeWork.bind(this)}>Complete work</button>
           <div></div>

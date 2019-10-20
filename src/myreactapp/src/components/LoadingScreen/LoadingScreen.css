@@ -4,8 +4,11 @@
     border-top: 16px solid #3498db;
     width: 30px;
     height: 30px;
-    -webkit-animation: spin 1s linear infinite; /* Safari */
     animation: spin 1s linear infinite;
+    position: relative;
+    left: 46%;
+    top: 40%;
+    background: rgba(12, 7, 7, 0);
   }
   
   
@@ -13,3 +16,14 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+  .background-screen {
+    position: fixed;
+    align-content: center;
+    left: 0px;
+    top:0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(12, 7, 7, 0.37);
+
+    z-index: 3;
+}

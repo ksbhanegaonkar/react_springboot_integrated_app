@@ -7,7 +7,10 @@ class LoadingScreen extends Component{
       render(){
           if(this.props.isLoading === true){
             return (
-                <div class="loader"></div>
+                <div className="background-screen">
+                     <div className="loader"></div>
+                </div>
+  
              );
           }
           else{
