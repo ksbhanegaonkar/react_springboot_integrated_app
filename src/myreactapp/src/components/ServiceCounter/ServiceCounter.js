@@ -61,7 +61,9 @@ componentDidMount(){
   completeWork(event) {
 
     this.setState({isLoading:true})
-      postRequest('/completework',this.state.token,
+    let updatedToken = this.state.token;
+    updatedToken.counterOwnerrId = this.state.counterOwnerId;
+      postRequest('/completework',updatedToken,
       (token)=>{
         this.refreshCounter();
       });
