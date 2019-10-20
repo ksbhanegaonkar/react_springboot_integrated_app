@@ -20,7 +20,7 @@ class CustomerConsole extends Component{
   }
 
   componentDidMount(){
-     this.refreshConsole();
+     setInterval(this.refreshConsole.bind(this),1000);
   }
 
   refreshConsole(){
@@ -43,7 +43,7 @@ class CustomerConsole extends Component{
                   {this.renderTableData()}
                </tbody>
             </table>
-          <button onClick={this.refreshConsole.bind(this)}>Refresh</button>
+       
       </div>
     );
   }
