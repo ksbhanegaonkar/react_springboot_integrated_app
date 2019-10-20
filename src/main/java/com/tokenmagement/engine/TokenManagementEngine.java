@@ -22,6 +22,7 @@ public class TokenManagementEngine {
 	private static final Map<Integer,ServiceCounter> PREMIUM_SERVICE_COUNTERS = new HashMap<>();
 	
 	private static final List<Token> ALL_ACTIVE_TOKENS = new ArrayList<>();
+	private static final List<Token> AUDIT_TOKEN_LIST = new ArrayList<>();
 	
 	private TokenDistributer normalTokenDistributer;
 	private TokenDistributer premiumTokenDistributer;
@@ -61,6 +62,7 @@ public class TokenManagementEngine {
 		}
 		token.setAssignedCounterId(counterId);
 		ALL_ACTIVE_TOKENS.add(token);
+		
 		return counterId;
 	}
 	
@@ -74,8 +76,9 @@ public class TokenManagementEngine {
 			NORMAL_SERVICE_COUNTERS.get(counterId).assignToken(token);
 		}
 		token.setAssignedCounterId(counterId);
-		token.setCounterOwnerrId(NORMAL_SERVICE_COUNTERS.get(counterId).getCounterOwnerId());
+		
 		ALL_ACTIVE_TOKENS.add(token);
+	
 		return token;
 	}
 	
@@ -139,6 +142,7 @@ public class TokenManagementEngine {
 				NORMAL_SERVICE_COUNTERS.get(token.getAssignedCounterId()).getNextToken();
 			}
 				ALL_ACTIVE_TOKENS.remove(token);
+				AUDIT_TOKEN_LIST.add(token);
 			token.setCompletedTimestamp(System.currentTimeMillis());
 			return token;
 		}
@@ -146,6 +150,10 @@ public class TokenManagementEngine {
 	
 	public List<Token> getAllActiveTokens(){
 		return ALL_ACTIVE_TOKENS;
+	}
+	
+	public List<Token> getTokenAudit(){
+		return AUDIT_TOKEN_LIST;
 	}
 	
 	public List<Token> getAssignedTokenList(){

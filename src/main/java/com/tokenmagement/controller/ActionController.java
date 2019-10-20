@@ -76,9 +76,9 @@ public class ActionController {
     	return JsonUtil.getTokenAsJsonObject(token);
     }
     
-    @GetMapping("/getallactivetokens")
+    @GetMapping("/audittoken")
     public ArrayNode getAllActiveTokens() {
-        return JsonUtil.createJsonArray(tokenManagementEngine.getAllActiveTokens());
+        return JsonUtil.createJsonArray(tokenManagementEngine.getTokenAudit());
     }
     
     @GetMapping("/getallassignedtokens")

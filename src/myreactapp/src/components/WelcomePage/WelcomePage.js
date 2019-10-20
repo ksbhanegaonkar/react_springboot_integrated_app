@@ -86,8 +86,13 @@ renderPremiumServiceCounter(){
 
 
   <tr>
-    <td>Customer console</td>
+    <td>Customer Console</td>
     <td><Link to={"/customerconsole"}>Link</Link></td>
+  </tr>
+
+  <tr>
+    <td>Admin Console</td>
+    <td><Link to={"/adminconsole"}>Link</Link></td>
   </tr>
   </tbody>
 </table>    

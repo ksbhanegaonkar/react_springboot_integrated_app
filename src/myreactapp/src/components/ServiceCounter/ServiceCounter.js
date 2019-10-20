@@ -12,7 +12,9 @@ class ServiceCounter extends Component{
     isPremium:false,
     successMessage:'',
     token:{},
-    isLoading:false
+    isLoading:false,
+    counterOwnerId:-1,
+    isCounterOwnerLoggedIn:false
 
   }
   constructor(props){
@@ -34,6 +36,11 @@ componentDidMount(){
     this.setState({pass:pass});
   }
 
+  handleSubmit(){
+    if(this.state.counterOwnerId !== -1){
+      this.setState({isCounterOwnerLoggedIn:true});
+    }
+  }
   refreshCounter(){
     this.setState({isLoading:true});
      postRequest('/getassignedtoken',{"counterId":this.props.match.params.id,"type":this.props.type},
@@ -42,8 +49,9 @@ componentDidMount(){
        if(token.tokenName === undefined || token.tokenName === null){
          token.assignedCounterId = this.props.match.params.id;
          token.type = this.props.type;
+         token.counterOwnerrId =0;
        }
-        
+       token.counterOwnerrId = this.state.counterOwnerId;
       this.setState({token:token,isLoading:false});
   
 
@@ -51,6 +59,7 @@ componentDidMount(){
   }
 
   completeWork(event) {
+
     this.setState({isLoading:true})
       postRequest('/completework',this.state.token,
       (token)=>{
@@ -59,9 +68,26 @@ componentDidMount(){
 
      
     }
+    setCounterOwnerId(id){
+      console.log("Setting owner id  :::"+id);
+      this.setState({counterOwnerId:id});
+    }
+
+
 
   render(){
-    
+     
+    if(!this.state.isCounterOwnerLoggedIn){
+      return <div>
+          <label>Counter owner Id</label>
+          <form onSubmit={this.handleSubmit.bind(this)}>
+          <input type="text" id="counterOwnerId" name="counterOwnerId" placeholder="Counter owner Id..."
+          onChange={e => this.setCounterOwnerId(e.target.value)}/>
+           <input type="submit" value="Log In"/>
+           </form>
+      </div>
+    }
+    else{
     return (
       <div >
         <LoadingScreen isLoading={this.state.isLoading}></LoadingScreen>
@@ -74,6 +100,8 @@ componentDidMount(){
 
       </div>
     );
+  }
+   
   }
   getTokenInfo(){
     if(this.state.token.tokenName === undefined || this.state.token.tokenName === null){

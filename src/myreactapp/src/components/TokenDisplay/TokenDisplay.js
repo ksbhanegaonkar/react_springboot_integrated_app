@@ -23,7 +23,7 @@ class TokenDisplay extends Component{
 
   
        renderTableHeader() {
-         let header = ["Token","Counter","Name"];//Object.keys(this.state.students[0])
+         let header = ["Token","Application Id","Name","Counter Name","Created timestamp"];//Object.keys(this.state.students[0])
          return header.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
          })
@@ -32,11 +32,15 @@ class TokenDisplay extends Component{
      
       renderTableData() {
          let assignedCounterName = this.props.token.type==="Premium"?"PC-"+this.props.token.assignedCounterId:"NC-"+this.props.token.assignedCounterId;
-       return (
+         let date = new Date(this.props.token.createdTimestamp);
+         let createdTimeStamp = date.toString("MMM dd"); // "Dec 20"
+         return (
               <tr key={this.props.token.tokenName}>
                  <td>{this.props.token.tokenName}</td>
-                 <td>{assignedCounterName}</td>
+                 <td>{this.props.token.ownerId}</td>
                  <td>{this.props.token.ownerName}</td>
+                 <td>{assignedCounterName}</td>
+                 <td>{createdTimeStamp}</td>
               </tr>
           
                );

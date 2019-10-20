@@ -47,6 +47,7 @@ class TokenCounter extends Component{
         token.ownerId = this.state.applicationId;
         token.ownerName = this.state.ownerName;
         token.tokenName = this.state.tokenType[0]+'-'+token.tokenNumber;
+        token.assignedCounterId = 0;
        postRequest('/assignnewtokentocounter',token,
           (updatedToken)=>
         { 
@@ -65,16 +66,16 @@ class TokenCounter extends Component{
           <h1>{this.props.name+this.props.match.params.id}</h1>
           <form onSubmit={this.handleSubmit.bind(this)}>
          
-          <label for="applicationId">Application Id</label>
+          <label>Application Id</label>
           <input type="text" id="applicationId" name="applicationId" placeholder="Customer application Id..."
             onChange={e => this.setApplicationId(e.target.value)}/>
         
-            <label for="customerName">CustomerName</label>
+            <label>CustomerName</label>
 
             <input type="text" id="customerName" name="customerName" placeholder="Customer name..."
             onChange={e => this.setCustomerName(e.target.value)}/>
 
-            <label for="tokenType">Token Type</label>
+            <label>Token Type</label>
             <select id="tokenType" name="tokenType"  onChange={e => this.setTokenType(e.target.value)}>
               <option value="Normal">Normal</option>
               <option value="Premium">Premium</option>
