@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import {postRequest,getRequest,postRequestEveryInterval} from '../Utils/RestUtils';
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import TokenDisplay from "../TokenDisplay/TokenDisplay";
+import './ServiceCounter.css';
 
 class ServiceCounter extends Component{
   state={

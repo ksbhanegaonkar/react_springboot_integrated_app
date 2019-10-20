@@ -27,7 +27,7 @@ class App extends Component {
           </Route>
 
           <Route path="/tokencounter/:id"  exact  strict
-           render={(props) => <TokenCounter {...props} name={"Token counter"}/>}>
+           render={(props) => <TokenCounter {...props} name={"Token counter TC-"}/>}>
           </Route>
 
           <Route path="/servicecounter/:id"   exact strict
@@ -35,7 +35,7 @@ class App extends Component {
           </Route>
 
           <Route path="/premiumservicecounter/:id"  exact strict
-           render={(props) => <ServiceCounter {...props} name={"Service Counter PC-"} type={"Premium"}/>}>
+           render={(props) => <ServiceCounter {...props} name={"Premium Service Counter PC-"} type={"Premium"}/>}>
           </Route>
 
           <Route path="/customerconsole"   exact strict
