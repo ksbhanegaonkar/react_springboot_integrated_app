@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import {BrowserRouter as Router,NavLink,Redirect,Route,Switch,Link } from 'react-router-dom';
-
 import './App.css';
 import TokenCounter from './components/TokenCounter/TokenCounter';
 import AdminConsole from './components/AdminConsole/AdminConsole';
@@ -12,6 +11,7 @@ class App extends Component {
   state={
     userStatus:false
   }
+
   render(){
   return (
     <Router>
