@@ -50,7 +50,6 @@ public class JsonUtil {
 		ObjectNode node = getEmptyJsonObject();
 		node.put("tokenNumber", token.getTokenNumber());
 		node.put("tokenName", token.getTokenName());
-		node.put("isPremium", token.isPremium());
 		node.put("assignedCounterId", token.getAssignedCounterId());
 		node.put("ownerId", token.getOwnerId());
 		node.put("ownerName", token.getOwnerName());
@@ -67,7 +66,6 @@ public class JsonUtil {
 		Token token = new Token();
 		token.setTokenNumber(node.get("tokenNumber").intValue());
 		token.setTokenName(node.get("tokenName").textValue());
-		token.setPremium(node.get("isPremium").asBoolean());
 		token.setAssignedCounterId(node.get("assignedCounterId").asInt());
 		token.setOwnerId(node.get("ownerId").asInt());
 		token.setOwnerName(node.get("ownerName").textValue());
@@ -79,18 +77,7 @@ public class JsonUtil {
 		return token;
 	}
 	
-	public static ObjectNode getJsonObject(Token token) {
-		
-		ObjectNode node = getEmptyJsonObject();
-		node.put("tokenNumber", token.getTokenNumber());
-		node.put("tokenName", token.getTokenName());
-		node.put("assignedCounter", token.getAssignedCounterId());
-		node.put("isPremium", token.isPremium());
-		node.put("ownerName", token.getOwnerName());
-		
-		
-		return node;
-	}
+
 	
 	public static ObjectNode getJsonObjectFromMap(Map<String,String> map) {
 		ObjectNode obj = getEmptyJsonObject();
@@ -100,14 +87,7 @@ public class JsonUtil {
 		return obj;
 	}
 	
-	public static ObjectNode getJsonObjectFromObjectMap(Map<Integer,Token> map) {
-		ObjectNode obj = getEmptyJsonObject();
-		for(Integer key : map.keySet()) {
-			obj.set(key.toString(), getJsonObject(map.get(key)));
-		}
-		return obj;
-	}
-	
+
 
 	
 	

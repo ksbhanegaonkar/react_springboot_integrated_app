@@ -21,18 +21,6 @@ public class ActionController {
 	@Autowired
 	TokenManagementEngine tokenManagementEngine;
 	
-
-	
-    @PostMapping("/assigntoken")
-    public int assignToken(@RequestBody String body) {
-    	Token token = new Token();
-    	token.setTokenNumber(Integer.parseInt(JsonUtil.getJsonValue(body, "tokenNumber")));
-    	token.setPremium(Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium")));
-    	token.setOwnerName(JsonUtil.getJsonValue(body, "ownerName"));
-    	int counterId = tokenManagementEngine.assignTokenToServiceCounter(token);
-        return counterId;
-    }
-    
     @PostMapping("/assignnewtokentocounter")
     public ObjectNode assignTokenToCounter(@RequestBody ObjectNode body) {
     	Token token = JsonUtil.getTokenFromJsonObject(body);
@@ -40,11 +28,6 @@ public class ActionController {
         return JsonUtil.getTokenAsJsonObject(token);
     }
 
-    
-    @GetMapping("/gettoken")
-    public int getToken() {
-        return tokenManagementEngine.getNextTokenNumber();
-    }
     
     @GetMapping("/generatetoken")
     public ObjectNode generateToken() {
@@ -58,15 +41,6 @@ public class ActionController {
     	String type = JsonUtil.getJsonValue(body, "type");
     	Token token = tokenManagementEngine.getServiceCounterNextToken(counterId, type);
         return JsonUtil.getTokenAsJsonObject(token);
-    }
-    
-    @PostMapping("/discardassignedtoken")
-    public ObjectNode discardAssignedToken(@RequestBody String body) {
-    	
-    	int counterId = Integer.parseInt(JsonUtil.getJsonValue(body, "counterId"));
-    	boolean isPremium = Boolean.parseBoolean(JsonUtil.getJsonValue(body, "isPremium"));
-    	Token token = tokenManagementEngine.discardServiceCounterToken(counterId, isPremium);
-    	return JsonUtil.getJsonObject(token);
     }
     
     @PostMapping("/completework")

@@ -9,7 +9,6 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 class TokenCounter extends Component{
   state={
     userName:'',
-    isPremium:false,
     tokenNumber:0,
     successMessage:'',
     token:{},
@@ -23,9 +22,6 @@ class TokenCounter extends Component{
     super(props);
     
   }
-  validateForm() {
-    return this.state.userName.length > 0 && this.state.pass.length > 0;
-  }
 
   setCustomerName(name){
     this.setState({ownerName:name});
@@ -35,7 +31,9 @@ class TokenCounter extends Component{
     this.setState({applicationId:id});
   }
 
-
+  setTokenType(type){
+    this.setState({tokenType:type});
+  }
   handleSubmit(event) {
       this.setState({isLoading:true});
     event.preventDefault();
@@ -107,9 +105,7 @@ class TokenCounter extends Component{
         </div>
     }
   }
-  setTokenType(type){
-    this.setState({tokenType:type});
-  }
+
   
 }
 export default TokenCounter;

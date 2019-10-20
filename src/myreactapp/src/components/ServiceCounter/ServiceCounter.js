@@ -9,7 +9,6 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 class ServiceCounter extends Component{
   state={
     userName:'',
-    isPremium:false,
     successMessage:'',
     token:{},
     isLoading:false,
@@ -25,18 +24,11 @@ class ServiceCounter extends Component{
 componentDidMount(){
   this.refreshCounter();
 }
-  validateForm() {
-    return this.state.userName.length > 0 && this.state.pass.length > 0;
-  }
 
-  setUsername(name){
-    this.setState({userName:name});
-  }
-  setPassword(pass){
-    this.setState({pass:pass});
-  }
 
-  handleSubmit(){
+
+  handleSubmit(event){
+    event.preventDefault();
     if(this.state.counterOwnerId !== -1){
       this.setState({isCounterOwnerLoggedIn:true});
     }
@@ -45,7 +37,6 @@ componentDidMount(){
     this.setState({isLoading:true});
      postRequest('/getassignedtoken',{"counterId":this.props.match.params.id,"type":this.props.type},
     (token)=>{
-      // console.log(" token.assignedCounterId"+ token.assignedCounterId+"token.isPremium"+this.props.isPremium)
        if(token.tokenName === undefined || token.tokenName === null){
          token.assignedCounterId = this.props.match.params.id;
          token.type = this.props.type;
@@ -71,7 +62,6 @@ componentDidMount(){
      
     }
     setCounterOwnerId(id){
-      console.log("Setting owner id  :::"+id);
       this.setState({counterOwnerId:id});
     }
 
