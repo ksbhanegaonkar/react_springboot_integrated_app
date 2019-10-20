@@ -63,6 +63,10 @@ class AdminConsole extends Component{
      if(token.tokenName != undefined){
       const { tokenName,tokenNumber,ownerId,completedTimestamp,createdTimestamp, counterOwnerrId,assignedCounterId, type, ownerName } = token;
       let assignedCounterName = type==="Premium"?"PC-"+assignedCounterId:"NC-"+assignedCounterId;
+      let startDate = new Date(createdTimestamp);
+      let startDateTime = startDate.toLocaleString();
+      let completeDate = new Date(completedTimestamp);
+      let completeDateTime = completeDate.toLocaleString();
       return (
          <tr key={tokenName}>
            <td>{tokenNumber}</td>
@@ -72,8 +76,8 @@ class AdminConsole extends Component{
             <td>{counterOwnerrId}</td>
             <td>{ownerId}</td>
             <td>{ownerName}</td>
-            <td>{createdTimestamp}</td>
-            <td>{completedTimestamp}</td>
+            <td>{startDateTime}</td>
+            <td>{completeDateTime}</td>
          </tr>
       );
 

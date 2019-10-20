@@ -33,7 +33,7 @@ class TokenDisplay extends Component{
       renderTableData() {
          let assignedCounterName = this.props.token.type==="Premium"?"PC-"+this.props.token.assignedCounterId:"NC-"+this.props.token.assignedCounterId;
          let date = new Date(this.props.token.createdTimestamp);
-         let createdTimeStamp = date.toString("MMM dd"); // "Dec 20"
+         let createdTimeStamp = date.toLocaleString(); // "Dec 20"
          return (
               <tr key={this.props.token.tokenName}>
                  <td>{this.props.token.tokenName}</td>
